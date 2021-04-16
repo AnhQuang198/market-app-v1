@@ -2,28 +2,49 @@ import React, { Component } from 'react';
 import { Row, Col, Input, Button, Alert, Container, Label, FormGroup } from "reactstrap";
 import { Link } from 'react-router-dom';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
+import { nonAuthorizedPOST, saveTokenAuth } from '../../Base';
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username : '',
-            password : ''
+            username: '',
+            password: ''
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event, values) {
-        // this.props.checkLogin(values, this.props.history);
-    }
-
-    componentDidMount(){
+    componentDidMount() {
         // this.props.apiError("");
         document.body.classList.add("auth-body-bg");
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         document.body.classList.remove("auth-body-bg");
+    }
+
+    handleChangeEmail = (event) => {
+        this.setState({ email: event.target.value });
+    }
+
+    handleChangePassword = (event) => {
+        this.setState({ password: event.target.value });
+    }
+
+    login = () => {
+        try {
+            const data = {
+                username: this.state.email,
+                password: this.state.password
+            }
+            const reqUrl = "/v1/auth/login";
+            const result = nonAuthorizedPOST(reqUrl, data);
+            console.log(result);
+            // if (result.status === 200) {
+            //     saveTokenAuth(result.data.token, result.data.refreshToken);
+            // }
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     render() {
@@ -47,18 +68,17 @@ class Login extends Component {
                                                     {this.props.loginError && this.props.loginError ? <Alert color="danger">{this.props.loginError}</Alert> : null}
 
                                                     <div className="p-2 mt-5">
-                                                        <AvForm className="form-horizontal" onValidSubmit={this.handleSubmit} >
-
+                                                        <AvForm className="form-horizontal">
                                                             <FormGroup className="auth-form-group-custom mb-4">
                                                                 <i className="ri-user-2-line auti-custom-input-icon"></i>
                                                                 <Label htmlFor="username">Username</Label>
-                                                                <AvField name="username" value={this.state.username} type="text" className="form-control" id="username" validate={{ email: true, required: true }} placeholder="Enter username" />
+                                                                <AvField name="username" value={this.state.username} type="text" className="form-control" id="username" validate={{ require: { value: true } }} errorMessage="Tài khoản không đúng định dạng!" placeholder="Enter username" />
                                                             </FormGroup>
 
                                                             <FormGroup className="auth-form-group-custom mb-4">
                                                                 <i className="ri-lock-2-line auti-custom-input-icon"></i>
                                                                 <Label htmlFor="userpassword">Password</Label>
-                                                                <AvField name="password" value={this.state.password} type="password" className="form-control" id="userpassword" placeholder="Enter password" />
+                                                                <AvField name="password" value={this.state.password} type="password" className="form-control" id="userpassword" validate={{ require: { value: true } }} errorMessage="Mật khẩu không đúng định dạng!" placeholder="Enter password" />
                                                             </FormGroup>
 
                                                             <div className="custom-control custom-checkbox">
@@ -67,7 +87,7 @@ class Login extends Component {
                                                             </div>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit">Log In</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>Log In</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">

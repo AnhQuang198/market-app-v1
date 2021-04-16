@@ -3,10 +3,9 @@ import ForgetPassword from "../pages/Auth/ForgetPassword";
 import Register from "../pages/Auth/Register";
 import Error404 from "../pages/Utils/Error404";
 import Error500 from "../pages/Utils/Error500";
-import AuthLayout from "../layouts/AuthLayout";
 
 const authRoutes = [
-    { path: "/", component: AuthLayout}
+    
 ];
 
 const publicRoutes = [
