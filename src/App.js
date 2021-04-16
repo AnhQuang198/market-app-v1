@@ -4,7 +4,7 @@ import "./theme.scss";
 import {authRoutes, publicRoutes} from "./routes/route";
 import AppRoute from "./routes/index";
 import NonAuthLayout from "./layouts/NonAuthLayout";
-
+import AuthLayout from "./layouts/AuthLayout";
 
 class App extends Component {
   render() {
@@ -25,7 +25,7 @@ class App extends Component {
             {authRoutes.map((route, idx) => (
               <AppRoute
                 path={route.path}
-                layout={NonAuthLayout}
+                layout={AuthLayout}
                 component={route.component}
                 key={idx}
                 isAuthProtected={true}
