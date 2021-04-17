@@ -1,4 +1,4 @@
-export const SERVER_URL = "http://192.168.1.18:8888";
+export const SERVER_URL = "http://192.168.1.6:8888";
 
 const axios = require('axios');
 
@@ -20,7 +20,7 @@ export async function nonAuthorizedPOST(url, data) {
 
 export async function saveTokenAuth(token, refreshToken) {
   localStorage.setItem("token", token);
-  localStorage.setItem("refreshToken", refreshToken);
+  localStorage.setItem("refresh-token", refreshToken);
 }
 
 export async function getTokenAuth(key) {

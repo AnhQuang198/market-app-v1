@@ -3,18 +3,18 @@ import { Row, Col, Input, Button, Alert, Container, Label, FormGroup } from "rea
 import { Link } from 'react-router-dom';
 import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { nonAuthorizedPOST, saveTokenAuth } from '../../Base';
-
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            loginState: true,
+            msgError: ''
         }
     }
 
     componentDidMount() {
-        // this.props.apiError("");
         document.body.classList.add("auth-body-bg");
     }
 
@@ -30,18 +30,22 @@ class Login extends Component {
         this.setState({ password: event.target.value });
     }
 
-    login = () => {
+    login = async () => {
         try {
             const data = {
                 username: this.state.email,
                 password: this.state.password
             }
             const reqUrl = "/v1/auth/login";
-            const result = nonAuthorizedPOST(reqUrl, data);
-            console.log(result);
-            // if (result.status === 200) {
-            //     saveTokenAuth(result.data.token, result.data.refreshToken);
-            // }
+            const result = await nonAuthorizedPOST(reqUrl, data);
+            if (result.status === 200) {
+                saveTokenAuth(result.data.token, result.data.refreshToken);
+            }else {
+                this.setState({
+                    loginState: false,
+                    msgError: result.message
+                })
+            }
         } catch (e) {
             console.log(e);
         }
@@ -64,21 +68,46 @@ class Login extends Component {
                                                         <p className="text-muted">Sign in to continue to Nazox.</p>
                                                     </div>
 
-
-                                                    {this.props.loginError && this.props.loginError ? <Alert color="danger">{this.props.loginError}</Alert> : null}
+                                                    {!this.state.loginState ? <Alert color="danger">{this.state.msgError}</Alert> : null}
 
                                                     <div className="p-2 mt-5">
                                                         <AvForm className="form-horizontal">
-                                                            <FormGroup className="auth-form-group-custom mb-4">
-                                                                <i className="ri-user-2-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="username">Username</Label>
-                                                                <AvField name="username" value={this.state.username} type="text" className="form-control" id="username" validate={{ require: { value: true } }} errorMessage="Tài khoản không đúng định dạng!" placeholder="Enter username" />
+                                                            <FormGroup>
+                                                                <Label htmlFor="validationUsername">Email:</Label>
+                                                                <AvField
+                                                                    name="Email"
+                                                                    placeholder="Enter email"
+                                                                    type="text"
+                                                                    errorMessage="Email không đúng định dạng!"
+                                                                    className="form-control"
+                                                                    value={this.state.username}
+                                                                    onChange={this.handleChangeEmail}
+                                                                    validate={{
+                                                                        required: { value: true },
+                                                                        minLength: { value: 6 },
+                                                                        maxLength: { value: 50 }
+                                                                    }}
+                                                                    id="validationUsername"
+                                                                />
                                                             </FormGroup>
 
-                                                            <FormGroup className="auth-form-group-custom mb-4">
-                                                                <i className="ri-lock-2-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="userpassword">Password</Label>
-                                                                <AvField name="password" value={this.state.password} type="password" className="form-control" id="userpassword" validate={{ require: { value: true } }} errorMessage="Mật khẩu không đúng định dạng!" placeholder="Enter password" />
+                                                            <FormGroup>
+                                                                <Label htmlFor="validationPassword">Password:</Label>
+                                                                <AvField
+                                                                    name="Password"
+                                                                    placeholder="Enter password"
+                                                                    type="password"
+                                                                    errorMessage="Mật khẩu không đúng định dạng!"
+                                                                    className="form-control"
+                                                                    value={this.state.password}
+                                                                    onChange={this.handleChangePassword}
+                                                                    validate={{
+                                                                        required: { value: true },
+                                                                        minLength: { value: 6 },
+                                                                        maxLength: { value: 50 }
+                                                                    }}
+                                                                    id="validationPassword"
+                                                                />
                                                             </FormGroup>
 
                                                             <div className="custom-control custom-checkbox">

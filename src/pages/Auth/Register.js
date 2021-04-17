@@ -11,19 +11,11 @@ class Register extends Component {
             username: "",
             password: ""
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(event, values) {
-        // this.props.registerUser(values)
     }
 
     componentDidMount() {
-        // this.props.registerUserFailed("");
-        // this.props.apiError("");
         document.body.classList.add("auth-body-bg");
     }
-
 
     render() {
         return (
@@ -47,26 +39,58 @@ class Register extends Component {
                                                     {this.props.registrationError && <Alert color="danger">{this.props.registrationError}</Alert>}
 
                                                     <div className="p-2 mt-5">
-                                                        <AvForm onValidSubmit={this.handleSubmit} className="form-horizontal" >
+                                                        <AvForm className="form-horizontal" >
 
-                                                            <FormGroup className="auth-form-group-custom mb-4">
-                                                                <i className="ri-mail-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="useremail">Email</Label>
-                                                                <AvField name="email" value={this.state.email} validate={{ email: true, required: true }} type="email" className="form-control" id="useremail" placeholder="Enter email" />
+                                                            <FormGroup>
+                                                                <Label htmlFor="validationName">Name:</Label>
+                                                                <AvField
+                                                                    name="Name"
+                                                                    placeholder="Enter name"
+                                                                    type="text"
+                                                                    errorMessage="Tên không đúng định dạng!"
+                                                                    className="form-control"
+                                                                    validate={{
+                                                                        required: { value: true },
+                                                                        minLength: { value: 6 },
+                                                                        maxLength: { value: 50 }
+                                                                    }}
+                                                                    id="validationName"
+                                                                />
                                                             </FormGroup>
 
-                                                            <FormGroup className="auth-form-group-custom mb-4">
-                                                                <i className="ri-user-2-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="username">Username</Label>
-                                                                <AvField name="username" value={this.state.username} type="text" className="form-control" id="username" placeholder="Enter username" />
+                                                            <FormGroup>
+                                                                <Label htmlFor="validationUsername">Email:</Label>
+                                                                <AvField
+                                                                    name="Email"
+                                                                    placeholder="Enter email"
+                                                                    type="text"
+                                                                    errorMessage="Email không đúng định dạng!"
+                                                                    className="form-control"
+                                                                    validate={{
+                                                                        required: { value: true },
+                                                                        minLength: { value: 6 },
+                                                                        maxLength: { value: 50 }
+                                                                    }}
+                                                                    id="validationUsername"
+                                                                />
                                                             </FormGroup>
 
-                                                            <FormGroup className="auth-form-group-custom mb-4">
-                                                                <i className="ri-lock-2-line auti-custom-input-icon"></i>
-                                                                <Label htmlFor="userpassword">Password</Label>
-                                                                <AvField name="password" value={this.state.password} type="password" className="form-control" id="userpassword" placeholder="Enter password" />
+                                                            <FormGroup>
+                                                                <Label htmlFor="validationPassword">Password:</Label>
+                                                                <AvField
+                                                                    name="Password"
+                                                                    placeholder="Enter password"
+                                                                    type="password"
+                                                                    errorMessage="Password không đúng định dạng!"
+                                                                    className="form-control"
+                                                                    validate={{
+                                                                        required: { value: true },
+                                                                        minLength: { value: 6 },
+                                                                        maxLength: { value: 50 }
+                                                                    }}
+                                                                    id="validationPassword"
+                                                                />
                                                             </FormGroup>
-
 
                                                             <div className="text-center">
                                                                 <Button color="primary" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading ..." : "Register"}</Button>
