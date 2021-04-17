@@ -9,6 +9,7 @@
     "availity-reactstrap-validation": "^2.7.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "eslint": "^7.24.0",
     "metismenujs": "^1.2.1",
     "node-sass": "^5.0.0",
     "react": "^17.0.2",

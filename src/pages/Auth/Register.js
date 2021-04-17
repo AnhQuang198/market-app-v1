@@ -2,19 +2,55 @@ import React, { Component } from 'react';
 import { Row, Col, Button, Alert, Container, Label, FormGroup } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { Link } from "react-router-dom";
+import { nonAuthorizedPOST } from '../../Base';
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
+            name: "",
             username: "",
-            password: ""
+            password: "",
+            regState: true,
+            msgError: '',
+            isLoading: false
         }
     }
 
     componentDidMount() {
         document.body.classList.add("auth-body-bg");
+    }
+
+    register = async () => {
+        try {
+            this.setState({isLoading:true})
+            const data = {
+                "name": this.state.name,
+                "username": this.state.username,
+                "password": this.state.password
+            }
+            const requestUrl = "/v1/auth/register";
+            const result = await nonAuthorizedPOST(requestUrl, data);
+            if (result.status === 200) {
+                this.setState({ regState: true, isLoading: false })
+            } else {
+                this.setState({ regState: false, msgError: result.message, isLoading: false })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    handleChangeName = (e) => {
+        this.setState({ name: e.target.value });
+    }
+
+    handleChangeUsername = (e) => {
+        this.setState({ username: e.target.value });
+    }
+
+    handleChangePassword = (e) => {
+        this.setState({ password: e.target.value });
     }
 
     render() {
@@ -34,9 +70,7 @@ class Register extends Component {
                                                         <p className="text-muted">Get your free Nazox account now.</p>
                                                     </div>
 
-                                                    {this.props.user && <Alert color="success">Registration Done Successfully.</Alert>}
-
-                                                    {this.props.registrationError && <Alert color="danger">{this.props.registrationError}</Alert>}
+                                                    {!this.state.regState ? <Alert color="danger">{this.state.msgError}</Alert> : null}
 
                                                     <div className="p-2 mt-5">
                                                         <AvForm className="form-horizontal" >
@@ -49,6 +83,8 @@ class Register extends Component {
                                                                     type="text"
                                                                     errorMessage="Tên không đúng định dạng!"
                                                                     className="form-control"
+                                                                    value={this.state.name}
+                                                                    onChange={this.handleChangeName}
                                                                     validate={{
                                                                         required: { value: true },
                                                                         minLength: { value: 6 },
@@ -66,6 +102,8 @@ class Register extends Component {
                                                                     type="text"
                                                                     errorMessage="Email không đúng định dạng!"
                                                                     className="form-control"
+                                                                    value={this.state.username}
+                                                                    onChange={this.handleChangeUsername}
                                                                     validate={{
                                                                         required: { value: true },
                                                                         minLength: { value: 6 },
@@ -83,6 +121,8 @@ class Register extends Component {
                                                                     type="password"
                                                                     errorMessage="Password không đúng định dạng!"
                                                                     className="form-control"
+                                                                    value={this.state.password}
+                                                                    onChange={this.handleChangePassword}
                                                                     validate={{
                                                                         required: { value: true },
                                                                         minLength: { value: 6 },
@@ -93,7 +133,7 @@ class Register extends Component {
                                                             </FormGroup>
 
                                                             <div className="text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit">{this.props.loading ? "Loading ..." : "Register"}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.register}>{this.state.isLoading ? "Loading ..." : "Register"}</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">
@@ -104,7 +144,6 @@ class Register extends Component {
 
                                                     <div className="mt-5 text-center">
                                                         <p>Already have an account ? <Link to="/login" className="font-weight-medium text-primary"> Login</Link> </p>
-                                                        <p>© 2020 Nazox. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesdesign</p>
                                                     </div>
                                                 </div>
 

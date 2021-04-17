@@ -10,7 +10,8 @@ class Login extends Component {
             username: '',
             password: '',
             loginState: true,
-            msgError: ''
+            msgError: '',
+            isLoading: false
         }
     }
 
@@ -32,6 +33,7 @@ class Login extends Component {
 
     login = async () => {
         try {
+            this.setState({isLoading: true})
             const data = {
                 username: this.state.email,
                 password: this.state.password
@@ -40,10 +42,12 @@ class Login extends Component {
             const result = await nonAuthorizedPOST(reqUrl, data);
             if (result.status === 200) {
                 saveTokenAuth(result.data.token, result.data.refreshToken);
+                this.setState({ loginState: true, isLoading: false})
             }else {
                 this.setState({
                     loginState: false,
-                    msgError: result.message
+                    msgError: result.message,
+                    isLoading: false
                 })
             }
         } catch (e) {
@@ -116,7 +120,7 @@ class Login extends Component {
                                                             </div>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>Log In</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>{this.state.isLoading ? 'Loading...' : 'Login In'}</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">
@@ -127,7 +131,6 @@ class Login extends Component {
 
                                                     <div className="mt-5 text-center">
                                                         <p>Don't have an account ? <Link to="/register" className="font-weight-medium text-primary"> Register </Link> </p>
-                                                        <p>© 2020 Nazox. Crafted with <i className="mdi mdi-heart text-danger"></i> by Themesdesign</p>
                                                     </div>
                                                 </div>
 

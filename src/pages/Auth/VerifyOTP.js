@@ -4,35 +4,27 @@ import { Link } from "react-router-dom";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import { nonAuthorizedPOST } from '../../Base';
 
-class ForgetPassword extends Component {
-    constructor(props) {
+class VerifyOTP extends Component {
+    constructor(props){
         super(props);
         this.state = {
-            isLoading: false,
-            email: '',
-            forgetState: true
+            otp : '',
+            type : this.props.otpType
         }
     }
 
-    handleChangeUsername = (e) => {
-        this.setState({ email: e.target.value });
-    }
-
-    sendOtp = async () => {
-        const requestUrl = "/v1/auth/send-otp"
+    verifyOtp = () => {
+        const requestUrl = "/v1/auth/verify-otp";
         const data = {
-            email: this.state.email,
-            type: 'FORGOT'
+            email: this.props.email,
+            otp: this.state.otp
         }
-        const result = await nonAuthorizedPOST(requestUrl, data);
-        console.log(result);
+        const result = nonAuthorizedPOST(requestUrl, data);
         if (result.status === 200) {
-            this.setState({ forgetState: true })
-        } else {
-            this.setState({ forgetState: false })
+            this.setState({ isRedirect: true })
         }
     }
-
+    
     render() {
         return (
             <React.Fragment>
@@ -49,10 +41,9 @@ class ForgetPassword extends Component {
                                                         <h4 className="font-size-18 mt-4">Reset Password</h4>
                                                         <p className="text-muted">Reset your password to Nazox.</p>
                                                     </div>
-
                                                     <div className="p-2 mt-5">
                                                         {!this.state.forgetState ? <Alert color="danger" className="mb-4">Email chưa đăng ký tài khoản!.</Alert> : null}
-                                                        
+
                                                         <AvForm className="form-horizontal">
                                                             <FormGroup>
                                                                 <Label htmlFor="validationUsername">Email:</Label>
@@ -62,7 +53,7 @@ class ForgetPassword extends Component {
                                                                     type="text"
                                                                     errorMessage="Email không đúng định dạng!"
                                                                     className="form-control"
-                                                                    value={this.state.email}
+                                                                    value={this.state.otp}
                                                                     onChange={this.handleChangeUsername}
                                                                     validate={{
                                                                         required: { value: true },
@@ -74,16 +65,14 @@ class ForgetPassword extends Component {
                                                             </FormGroup>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.sendOtp}>{this.state.isLoading ? "Loading..." : "Reset"}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.verifyOtp}>{this.state.isLoading ? "Loading..." : "Reset"}</Button>
                                                             </div>
                                                         </AvForm>
                                                     </div>
-
                                                     <div className="mt-5 text-center">
                                                         <p>Don't have an account ? <Link to="/login" className="font-weight-medium text-primary"> Log in </Link> </p>
                                                     </div>
                                                 </div>
-
                                             </Col>
                                         </Row>
                                     </div>
@@ -102,4 +91,4 @@ class ForgetPassword extends Component {
     }
 }
 
-export default ForgetPassword;
+export default VerifyOTP;
