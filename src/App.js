@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router } from "react-router-dom";
+import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
 import "./theme.scss";
-import {authRoutes, publicRoutes} from "./routes/route";
-import AppRoute from "./routes/index";
-import NonAuthLayout from "./layouts/NonAuthLayout";
-import AuthLayout from "./layouts/AuthLayout";
-
+import { authRoutes, publicRoutes } from "./routes/route";
+import PublicRoute from "./routes/PublicRoute";
+import AuthenRoute from "./routes/AuthenRoute";
+import Error404 from "./pages/Utils/Error404";
 class App extends Component {
   render() {
     return (
@@ -13,22 +12,22 @@ class App extends Component {
         <Router>
           <Switch>
             {publicRoutes.map((route, idx) => (
-              <AppRoute
+              <PublicRoute
+                restricted={true}
                 path={route.path}
-                layout={NonAuthLayout}
                 component={route.component}
                 key={idx}
-                isAuthProtected={false}
+                exact
               />
             ))}
 
             {authRoutes.map((route, idx) => (
-              <AppRoute
+              <AuthenRoute
+                restricted={true}
                 path={route.path}
-                layout={AuthLayout}
                 component={route.component}
                 key={idx}
-                isAuthProtected={true}
+                exact
               />
             ))}
           </Switch>

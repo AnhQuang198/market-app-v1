@@ -1,6 +1,8 @@
 export const SERVER_URL = "http://192.168.1.6:8888";
 
 const axios = require('axios');
+const TOKEN_KEY = 'token';
+const REFRESH_TOKEN_KEY = 'refresh';
 
 export async function nonAuthorizedPOST(url, data) {
   return await axios({
@@ -19,10 +21,13 @@ export async function nonAuthorizedPOST(url, data) {
 }
 
 export async function saveTokenAuth(token, refreshToken) {
-  localStorage.setItem("token", token);
-  localStorage.setItem("refresh-token", refreshToken);
+  localStorage.setItem(TOKEN_KEY, token);
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
 }
 
-export async function getTokenAuth(key) {
-  return localStorage.getItem(key);
+export const isLogin = () => {
+  if (localStorage.getItem(TOKEN_KEY)) {
+      return true;
+  }
+  return false;
 }
