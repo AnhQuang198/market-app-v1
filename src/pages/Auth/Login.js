@@ -43,6 +43,8 @@ class Login extends Component {
             if (result.status === 200) {
                 saveTokenAuth(result.data.token, result.data.refreshToken);
                 this.setState({ loginState: true, isLoading: false})
+                // redirect to path when login success
+                this.props.history.push("/home");
             }else {
                 this.setState({
                     loginState: false,
@@ -120,7 +122,7 @@ class Login extends Component {
                                                             </div>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>{this.state.isLoading ? 'Loading...' : 'Login In'}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>{this.state.isLoading ? 'Loading...' : 'Login'}</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">

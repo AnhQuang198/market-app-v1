@@ -6,7 +6,7 @@ import Error500 from "../pages/Utils/Error500";
 import Home from "../pages/doashboard/Home";
 
 const authRoutes = [
-    { path: "/" , component: Home}
+    { path: "/home" , component: Home}
 ];
 
 const publicRoutes = [

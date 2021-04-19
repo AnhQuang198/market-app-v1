@@ -3,9 +3,11 @@ import React, { Component } from 'react';
 class Home extends Component {
     render() {
         return (
-            <div>
-                Hello
-            </div>
+            <React.Fragment>
+                <div className="page-content">
+                    Welcome to homepage!
+                </div>
+            </React.Fragment>
         );
     }
 }

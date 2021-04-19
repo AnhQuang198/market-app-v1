@@ -20,9 +20,31 @@ export async function nonAuthorizedPOST(url, data) {
   });
 }
 
+export async function authorizedGET(url) {
+  let token = localStorage.getItem(TOKEN_KEY);
+  return await axios({
+    method: "GET",
+    url: SERVER_URL + url,
+    headers: {
+      Accept: "*/*",
+      "Content-Type": "application/json",
+      "x-demo-user-id": 2,
+      "x-demo-token": token
+    }
+  }).catch(e => {
+    if(e.response) {
+      return e.response.data;
+    }
+  });
+}
+
 export async function saveTokenAuth(token, refreshToken) {
   localStorage.setItem(TOKEN_KEY, token);
   localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+}
+
+export function isLogout() {
+  localStorage.removeItem(TOKEN_KEY);
 }
 
 export const isLogin = () => {

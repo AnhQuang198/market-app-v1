@@ -23,24 +23,6 @@ class AuthLayout extends Component {
         return string.charAt(1).toUpperCase() + string.slice(2);
     };
 
-    componentDidUpdate(prevProps) {
-        if (prevProps !== this.props) {
-            if (this.props.isPreloader === true) {
-                document.getElementById('preloader').style.display = "block";
-                document.getElementById('status').style.display = "block";
-
-                setTimeout(function () {
-                    document.getElementById('preloader').style.display = "none";
-                    document.getElementById('status').style.display = "none";
-                }, 2500);
-            }
-            else {
-                document.getElementById('preloader').style.display = "none";
-                document.getElementById('status').style.display = "none";
-            }
-        }
-    }
-
     componentDidMount() {
         window.scrollTo(0, 0);
         if (this.props.leftSideBarTheme) {

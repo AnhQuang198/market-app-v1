@@ -6,10 +6,10 @@ import NonAuthLayout from "../layouts/NonAuthLayout";
 const PublicRoute = ({ component: Component, restricted, ...rest }) => {
     return (
         <Route {...rest} render={props => (
-            !isLogin() && restricted ?
+            !isLogin() ?
                 <NonAuthLayout>
                     <Component {...props} />
-                </NonAuthLayout> : <Redirect to="/" />
+                </NonAuthLayout> : <Redirect to="/home" />
         )} />
     );
 };

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import errorImg from "../../assets/images/error-img.png";
+import {isLogin} from "../../Base";
 
 class Error404 extends Component {
     render() {
@@ -15,7 +16,7 @@ class Error404 extends Component {
                                 <h1 className="font-weight-bold text-error">4 <span className="error-text">0<img src={errorImg} alt="" className="error-img"/></span> 4</h1>
                                 <h3 className="text-uppercase">Sorry, page not found</h3>
                                 <div className="mt-5 text-center">
-                                    <Link to="/" className="btn btn-primary waves-effect waves-light" >Back to Dashboard</Link>
+                                    <Link to={isLogin() ? "/home" : "/login"} className="btn btn-primary waves-effect waves-light" >{isLogin() ? 'Back to Dashboard' : 'Back to Login'}</Link>
                                 </div>
                             </div>
                         </Col>

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
+import { Switch, BrowserRouter as Router, Redirect } from "react-router-dom";
 import "./theme.scss";
 import { authRoutes, publicRoutes } from "./routes/route";
 import PublicRoute from "./routes/PublicRoute";
 import AuthenRoute from "./routes/AuthenRoute";
-import Error404 from "./pages/Utils/Error404";
 class App extends Component {
   render() {
     return (
@@ -13,7 +12,6 @@ class App extends Component {
           <Switch>
             {publicRoutes.map((route, idx) => (
               <PublicRoute
-                restricted={true}
                 path={route.path}
                 component={route.component}
                 key={idx}
@@ -23,13 +21,13 @@ class App extends Component {
 
             {authRoutes.map((route, idx) => (
               <AuthenRoute
-                restricted={true}
                 path={route.path}
                 component={route.component}
                 key={idx}
                 exact
               />
             ))}
+            <Redirect to="/pages-404" />
           </Switch>
         </Router>
       </React.Fragment>
