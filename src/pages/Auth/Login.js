@@ -122,7 +122,7 @@ class Login extends Component {
                                                             </div>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login}>{this.state.isLoading ? 'Loading...' : 'Login'}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.login} disabled={this.state.isLoading}>{this.state.isLoading ? 'Loading...' : 'Login'}</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">

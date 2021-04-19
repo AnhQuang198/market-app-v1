@@ -19,18 +19,24 @@ class ForgetPassword extends Component {
     }
 
     sendOtp = async () => {
-        const requestUrl = "/v1/auth/send-otp"
-        const data = {
-            email: this.state.email,
-            type: 'FORGOT'
+        try {
+            this.setState({ isLoading: true })
+            const requestUrl = "/v1/auth/send-otp"
+            const data = {
+                email: this.state.email,
+                type: 'FORGOT'
+            }
+            const result = await nonAuthorizedPOST(requestUrl, data);
+            console.log(result);
+            if (result.status === 200) {
+                this.setState({ forgetState: true, isLoading: false })
+            } else {
+                this.setState({ forgetState: false, isLoading: false })
+            }
+        } catch (e) {
+            console.log(e);
         }
-        const result = await nonAuthorizedPOST(requestUrl, data);
-        console.log(result);
-        if (result.status === 200) {
-            this.setState({ forgetState: true })
-        } else {
-            this.setState({ forgetState: false })
-        }
+
     }
 
     render() {
@@ -52,7 +58,7 @@ class ForgetPassword extends Component {
 
                                                     <div className="p-2 mt-5">
                                                         {!this.state.forgetState ? <Alert color="danger" className="mb-4">Email chưa đăng ký tài khoản!.</Alert> : null}
-                                                        
+
                                                         <AvForm className="form-horizontal">
                                                             <FormGroup>
                                                                 <Label htmlFor="validationUsername">Email:</Label>
@@ -74,7 +80,7 @@ class ForgetPassword extends Component {
                                                             </FormGroup>
 
                                                             <div className="mt-4 text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.sendOtp}>{this.state.isLoading ? "Loading..." : "Reset"}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.sendOtp} disabled={this.state.isLoading}>{this.state.isLoading ? "Loading..." : "Reset"}</Button>
                                                             </div>
                                                         </AvForm>
                                                     </div>

@@ -23,7 +23,7 @@ class Register extends Component {
 
     register = async () => {
         try {
-            this.setState({isLoading:true})
+            this.setState({ isLoading: true })
             const data = {
                 "name": this.state.name,
                 "username": this.state.username,
@@ -133,7 +133,7 @@ class Register extends Component {
                                                             </FormGroup>
 
                                                             <div className="text-center">
-                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.register}>{this.state.isLoading ? "Loading ..." : "Register"}</Button>
+                                                                <Button color="primary" className="w-md waves-effect waves-light" type="submit" onClick={this.register} disabled={this.state.isLoading}>{this.state.isLoading ? "Loading ..." : "Register"}</Button>
                                                             </div>
 
                                                             <div className="mt-4 text-center">
