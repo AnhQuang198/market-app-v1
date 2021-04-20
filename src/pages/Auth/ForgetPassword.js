@@ -27,9 +27,9 @@ class ForgetPassword extends Component {
                 type: 'FORGOT'
             }
             const result = await nonAuthorizedPOST(requestUrl, data);
-            console.log(result);
             if (result.status === 200) {
                 this.setState({ forgetState: true, isLoading: false })
+                this.props.history.push({ pathname: "/verify-otp", state: { email: this.state.email, type: "FORGOT" } });
             } else {
                 this.setState({ forgetState: false, isLoading: false })
             }

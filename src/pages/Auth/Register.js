@@ -33,6 +33,7 @@ class Register extends Component {
             const result = await nonAuthorizedPOST(requestUrl, data);
             if (result.status === 200) {
                 this.setState({ regState: true, isLoading: false })
+                this.props.history.push({ pathname: "/verify-otp", state: { email: this.state.username, type: "REGISTER" } });
             } else {
                 this.setState({ regState: false, msgError: result.message, isLoading: false })
             }
