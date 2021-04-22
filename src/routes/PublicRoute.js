@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { isLogin } from '../Base';
 import NonAuthLayout from "../layouts/NonAuthLayout";
 
-const PublicRoute = ({ component: Component, restricted, ...rest }) => {
+const PublicRoute = ({ component: Component, ...rest }) => {
     return (
         <Route {...rest} render={props => (
             !isLogin() ?

@@ -18,7 +18,6 @@ class App extends Component {
                 exact
               />
             ))}
-
             {authRoutes.map((route, idx) => (
               <AuthenRoute
                 path={route.path}
