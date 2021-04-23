@@ -26,7 +26,7 @@ class App extends Component {
                 exact
               />
             ))}
-            <Redirect to="/pages-404" />
+            {/* <Redirect to="/pages-404" /> */}
           </Switch>
         </Router>
       </React.Fragment>
