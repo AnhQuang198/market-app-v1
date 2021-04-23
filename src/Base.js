@@ -1,4 +1,5 @@
-export const SERVER_URL = "http://192.168.1.17:8888";
+// export const SERVER_URL = "http://192.168.1.17:8888"; //local
+export const SERVER_URL = "https://authen-service-app.herokuapp.com"; //prod
 
 const axios = require('axios');
 const TOKEN_KEY = 'token';
